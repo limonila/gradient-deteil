@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Градиент — Детейлинг Авто</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #00d2ff;
+            --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --bg-light: #f4f7f6;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        /* --- Верхняя панель --- */
+        .topbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .topbar-logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .topbar-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0.85;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        .topbar-nav a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .topbar-phone {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            padding: 8px 18px;
+            border-radius: 50px;
+            transition: background 0.3s;
+        }
+
+        .topbar-phone:hover {
+            background: var(--accent);
+        }
+
+        /* --- Header / Hero Section --- */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            padding: 140px 20px 80px;
+            position: relative;
+        }
+
+        .hero-badge-top {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(0, 210, 255, 0.12);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            max-width: 800px;
+            margin-bottom: 18px;
+            line-height: 1.35;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            opacity: 0.85;
+            animation: fadeInUp 1s ease 0.3s both;
+            max-width: 680px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 35px;
+            animation: fadeInUp 1s ease 0.45s both;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            backdrop-filter: blur(6px);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn-main {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--accent-gradient);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid rgba(255,255,255,0.6);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* --- Статистика --- */
+        .hero-stats {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.8s both;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 4px;
+        }
+
+        /* --- Services Section --- */
+        .services {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            position: relative;
+            color: var(--primary);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-gradient);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px 22px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .service-icon {
+            font-size: 2.6rem;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .service-desc {
+            color: #666;
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .btn-service {
+            display: inline-block;
+            padding: 10px 22px;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: transparent;
+            cursor: pointer;
+            margin-top: auto;
+        }
+
+        .btn-service:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* --- Химчистка подробно --- */
+        .detail-block {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .detail-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .detail-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .detail-header p {
+            color: #666;
+            font-size: 1.05rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+        }
+
+        .step {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px 24px 24px 70px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+        }
+
+        .step-icon {
+            position: absolute;
+            left: 20px;
+            top: 24px;
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .step h4 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .gift-banner {
+            margin-top: 40px;
+            background: var(--accent-gradient);
+            color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 14px 34px rgba(0, 210, 255, 0.35);
+        }
+
+        .gift-banner h3 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+
+        .gift-banner p {
+            opacity: 0.95;
+            font-size: 1rem;
+        }
+
+        /* --- Почему мы --- */
+        .why-us {
+            background: var(--primary);
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .why-us .section-title {
+            color: #fff;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            max-width: 250px;
+            padding: 20px;
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #1a252f;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- Модальное окно записи --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 100;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 100%;
+            padding: 45px 35px 35px;
+            text-align: center;
+            position: relative;
+            transform: translateY(30px) scale(0.96);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Декоративная полоса сверху */
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent-gradient);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            line-height: 1;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: ring 1.2s ease infinite;
+            transform-origin: top center;
+        }
+
+        .modal h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .modal-slogan {
+            font-size: 0.95rem;
+            color: #777;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .modal-phone {
+            display: inline-block;
+            font-size: 1.9rem;
+            font-weight: 800;
+            text-decoration: none;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-phone:hover {
+            opacity: 0.85;
+        }
+
+        .modal-hours {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 25px;
+        }
+
+        .modal-call-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-gradient);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .modal-call-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(0, 210, 255, 0.55);
+        }
+
+        @keyframes ring {
+            0%, 100% { transform: rotate(0); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-12deg); }
+            30% { transform: rotate(10deg); }
+            40% { transform: rotate(-8deg); }
+            50% { transform: rotate(0); }
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Adaptive --- */
+        @media (max-width: 768px) {
+            .topbar { padding: 14px 18px; }
+            .topbar-nav { display: none; }
+            .logo { font-size: 2.8rem; letter-spacing: 3px; }
+            header { min-height: auto; padding: 120px 20px 60px; }
+            .hero-title { font-size: 1.25rem; }
+            .tagline { font-size: 0.95rem; }
+            .section-title { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .service-card { padding: 25px 20px; }
+            .service-card h3 { min-height: auto; }
+            .detail-header h2 { font-size: 1.7rem; }
+            .steps { grid-template-columns: 1fr; }
+            .hero-stats { gap: 35px; }
+            .stat-num { font-size: 1.7rem; }
+            .btn-main, .btn-outline { padding: 13px 28px; font-size: 0.9rem; }
+            .modal { padding: 40px 25px 30px; }
+            .modal-phone { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Верхняя панель -->
+    <div class="topbar">
+        <div class="topbar-logo">Градиент</div>
+        <nav class="topbar-nav">
+            <a href="#services">Услуги</a>
+            <a href="#himchistka">Химчистка</a>
+            <a href="#why">Почему мы</a>
+        </nav>
+        <a href="tel:+79990000000" class="topbar-phone">+7 (999) 000-00-00</a>
+    </div>
+
+    <!-- Шапка -->
+    <header>
+        <span class="hero-badge-top">💎 Профессиональная студия детейлинга</span>
+        <h1 class="logo">Градиент</h1>
+        <h2 class="hero-title">Полный комплекс услуг по уходу за вашим автомобилем 🏎️</h2>
+        <p class="tagline">Выполняем химчистку салона, полировку кузова, защитные покрытия и предпродажную подготовку. Используем только премиальную химию, которая не повредит покрытие вашего авто.</p>
+        <div class="hero-badges">
+            <span class="hero-badge">Премиальная химия</span>
+            <span class="hero-badge">Центр города</span>
+            <span class="hero-badge">Подарок к химчистке</span>
+        </div>
+        <div class="hero-buttons">
+            <button class="btn-main" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">Наши услуги</button>
+            <button class="btn-outline" onclick="openModal()">Записаться</button>
+        </div>
+
+        <!-- Статистика -->
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">5+</div>
+                <div class="stat-label">лет опыта</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">9</div>
+                <div class="stat-label">видов услуг</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">гарантия качества</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">🎁</div>
+                <div class="stat-label">мойка в подарок</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Услуги -->
+    <section id="services" class="services">
+        <h2 class="section-title">Наши услуги</h2>
+        <div class="services-grid">
+
+            <div class="service-card">
+                <div class="service-icon">🧼</div>
+                <h3>Автохимчистка</h3>
+                <div class="price">от 2 000 ₽</div>
+                <p class="service-desc">Глубокая очистка салона и кузова от загрязнений. Используем профессиональные средства.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🦠</div>
+                <h3>Антибактериальная обработка</h3>
+                <div class="price">от 1 000 ₽</div>
+                <p class="service-desc">Уничтожение бактерий и вирусов. Удаление неприятных запахов в салоне.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Детейлинг</h3>
+                <div class="price">от 3 000 ₽</div>
+                <p class="service-desc">Комплексный уход за кузовом и салоном. Полировка, нанесение защитных покрытий.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🚗</div>
+                <h3>Предпродажная подготовка</h3>
+                <div class="price">от 3 000 ₽</div>
+                <p class="service-desc">Приведение авто в идеальный вид для продажи. Полная мойка и химчистка.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🪞</div>
+                <h3>Абразивная полировка кузова</h3>
+                <div class="price">от 3 000 ₽</div>
+                <p class="service-desc">Удаление царапин, потёртостей и следов эксплуатации. Восстановление глубины цвета.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💧</div>
+                <h3>Мойка авто</h3>
+                <div class="price">от 1 500 ₽</div>
+                <p class="service-desc">Бесконтактная и контактная мойка кузова с использованием мягких шампуней.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🛡️</div>
+                <h3>Нанесение защитного покрытия</h3>
+                <div class="price">от 1 000 ₽</div>
+                <p class="service-desc">Нанесение воска, керамики или жидкого стекла для защиты кузова от внешних воздействий.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">🔦</div>
+                <h3>Полировка</h3>
+                <div class="price">от 3 000 ₽</div>
+                <p class="service-desc">Мягкая полировка для придания блеска и устранения мелких дефектов лакокрасочного покрытия.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">💡</div>
+                <h3>Полировка фар</h3>
+                <div class="price">от 2 000 ₽</div>
+                <p class="service-desc">Восстановление прозрачности фар, удаление желтизны и микроцарапин. Улучшение света.</p>
+                <button class="btn-service" onclick="openModal()">Записаться</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Подробно о химчистке -->
+    <section id="himchistka" class="detail-block">
+        <div class="detail-header">
+            <h2>🧼 Что включает в себя химчистка салона</h2>
+            <p>Поэтапная профессиональная обработка всех поверхностей салона — от сухой уборки до финишной защиты материалов.</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <span class="step-icon">🧹</span>
+                <h4>Сухая уборка</h4>
+                <p>Тщательная очистка пылесосом всех поверхностей, включая сиденья, пол, воздуховоды и щели.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-icon">💦</span>
+                <h4>Влажная уборка</h4>
+                <p>Обработка кожи, ткани и пластика с использованием специализированных очистителей, кистей и микрофибры.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-icon">🪥</span>
+                <h4>Глубокая проработка труднодоступных зон</h4>
+                <p>Очистка стыков, швов, дефлекторов, дверных карт и центральной консоли.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-icon">🚿</span>
+                <h4>Тщательная чистка экстрактором</h4>
+                <p>Детальная проработка всех текстильных поверхностей.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-icon">🫟</span>
+                <h4>Локальная обработка сложных пятен</h4>
+                <p>Стойкие пятна от еды, напитков и косметики точечно обрабатываем специальными пятновыводителями.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-icon">✨</span>
+                <h4>Финишная обработка</h4>
+                <p>Наносим защитные составы: кондиционеры для кожи, полироли для пластика, консервация текстиля и пластика.</p>
+            </div>
+        </div>
+
+        <div class="gift-banner">
+            <h3>🎁 Подарок к химчистке салона</h3>
+            <p>Трёхфазная детейлинг-мойка кузова — бесплатно при заказе комплексной химчистки!</p>
+        </div>
+    </section>
+
+    <!-- Почему мы -->
+    <section id="why" class="why-us">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="features">
+            <div class="feature-item">
+                <h4>Опытные мастера</h4>
+                <p>Наши специалисты имеют опыт работы более 5 лет.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Премиальная химия</h4>
+                <p>Используем только сертифицированные материалы, которые не повредят покрытие вашего авто.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Гарантия качества</h4>
+                <p>Уверены в результате и даём гарантию на все виды услуг.</p>
+            </div>
+            <div class="feature-item">
+                <h4>Удобное расположение</h4>
+                <p>Находимся в центре города, район ТРЦ «Лоцман», пер. Гренажный, 31Г.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="contact-info">
+            <p>Запись по телефону: <a href="tel:+79990000000">+7 (999) 000-00-00</a></p>
+            <p>📍 г. Волгоград, пер. Гренажный, 31Г (район ТРЦ «Лоцман»)</p>
+        </div>
+        <p>&copy; 2024 Детейлинг-центр «Градиент». Все права защищены.</p>
+    </footer>
+
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="callModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
+            <span class="modal-icon">📞</span>
+            <h3>Запишитесь на детейлинг</h3>
+            <p class="modal-slogan">«Ваш автомобиль заслуживает лучшего»</p>
+            <a href="tel:+79990000000" class="modal-phone">+7 (999) 000-00-00</a>
+            <p class="modal-hours">Ежедневно с 9:00 до 21:00</p>
+            <a href="tel:+79990000000" class="modal-call-btn">Позвонить сейчас</a>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('callModal');
+
+        function openModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Закрытие по клику на фон
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Закрытие по ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+    </script>
+
+</body>
+</html>
