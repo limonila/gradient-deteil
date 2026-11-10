@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2300d2ff'/><stop offset='1' stop-color='%233a7bd5'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='%232c3e50'/><text x='50' y='72' font-family='Arial,sans-serif' font-size='64' font-weight='bold' fill='url(%23g)' text-anchor='middle'>Г</text></svg>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Градиент — Детейлинг Авто</title>
+    <title>Градиент — Детейлинг Авто в Симферополе</title>
+    <meta name="description" content="Профессиональная студия детейлинга в Симферополе. Химчистка салона, полировка кузова, защитные покрытия. Премиальная химия. Подарок — детейлинг-мойка!">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2300d2ff'/><stop offset='1' stop-color='%233a7bd5'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23g)'/><text x='50' y='72' font-family='Arial,sans-serif' font-size='64' font-weight='bold' fill='white' text-anchor='middle'>Г</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,7 +26,7 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             color: var(--text-dark);
             background-color: var(--bg-light);
             line-height: 1.6;
@@ -89,9 +92,12 @@
             background: var(--accent);
         }
 
-        /* --- Header / Hero Section --- */
+        /* --- Header / Hero Section (лёгкий CSS-фон) --- */
         header {
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(0, 210, 255, 0.18) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 70%, rgba(58, 123, 213, 0.20) 0%, transparent 55%),
+                linear-gradient(135deg, #1a252f 0%, #2c3e50 55%, #1a3a4a 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -101,6 +107,21 @@
             color: var(--text-light);
             padding: 140px 20px 80px;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Декоративный силуэт машины на фоне (чистый SVG, 0 запросов) */
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 240px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 240' preserveAspectRatio='none'%3E%3Cpath fill='%2300d2ff' fill-opacity='0.05' d='M0,200 L180,200 C220,200 240,160 300,160 L420,160 C460,120 560,90 720,90 C880,90 980,120 1020,160 L1140,160 C1200,160 1220,200 1260,200 L1440,200 L1440,240 L0,240 Z'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: bottom;
+            pointer-events: none;
         }
 
         .hero-badge-top {
@@ -113,6 +134,8 @@
             font-weight: 600;
             margin-bottom: 25px;
             animation: fadeInDown 0.8s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .logo {
@@ -125,6 +148,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInDown 1s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-title {
@@ -134,6 +159,8 @@
             margin-bottom: 18px;
             line-height: 1.35;
             animation: fadeInUp 1s ease 0.2s both;
+            position: relative;
+            z-index: 1;
         }
 
         .tagline {
@@ -143,6 +170,8 @@
             opacity: 0.85;
             animation: fadeInUp 1s ease 0.3s both;
             max-width: 680px;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-badges {
@@ -152,6 +181,8 @@
             justify-content: center;
             margin-bottom: 35px;
             animation: fadeInUp 1s ease 0.45s both;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-badge {
@@ -172,6 +203,8 @@
             justify-content: center;
             margin-bottom: 50px;
             animation: fadeInUp 1s ease 0.6s both;
+            position: relative;
+            z-index: 1;
         }
 
         .btn-main {
@@ -223,6 +256,8 @@
             animation: fadeInUp 1s ease 0.8s both;
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            z-index: 1;
         }
 
         .stat {
@@ -527,7 +562,6 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Декоративная полоса сверху */
         .modal::before {
             content: '';
             position: absolute;
@@ -627,7 +661,6 @@
             50% { transform: rotate(0); }
         }
 
-        /* --- Animations --- */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -675,13 +708,13 @@
 
     <!-- Шапка -->
     <header>
-        <span class="hero-badge-top">💎 Профессиональная студия детейлинга</span>
+        <span class="hero-badge-top">💎 Профессиональная студия детейлинга в Симферополе</span>
         <h1 class="logo">Градиент</h1>
         <h2 class="hero-title">Полный комплекс услуг по уходу за вашим автомобилем 🏎️</h2>
         <p class="tagline">Выполняем химчистку салона, полировку кузова, защитные покрытия и предпродажную подготовку. Используем только премиальную химию, которая не повредит покрытие вашего авто.</p>
         <div class="hero-badges">
             <span class="hero-badge">Премиальная химия</span>
-            <span class="hero-badge">Центр города</span>
+            <span class="hero-badge">Центр Симферополя</span>
             <span class="hero-badge">Подарок к химчистке</span>
         </div>
         <div class="hero-buttons">
@@ -689,7 +722,6 @@
             <button class="btn-outline" onclick="openModal()">Записаться</button>
         </div>
 
-        <!-- Статистика -->
         <div class="hero-stats">
             <div class="stat">
                 <div class="stat-num">5+</div>
@@ -859,7 +891,7 @@
             </div>
             <div class="feature-item">
                 <h4>Удобное расположение</h4>
-                <p>Находимся в центре города, район ТРЦ «Лоцман», пер. Гренажный, 31Г.</p>
+                <p>Находимся в центре Симферополя, район ТРЦ «Лоцман», пер. Гренажный, 31Г.</p>
             </div>
         </div>
     </section>
@@ -868,47 +900,13 @@
     <footer>
         <div class="contact-info">
             <p>Запись по телефону: <a href="tel:+79990000000">+7 (999) 000-00-00</a></p>
-            <p>📍 г. Волгоград, пер. Гренажный, 31Г (район ТРЦ «Лоцман»)</p>
+            <p>📍 г. Симферополь, пер. Гренажный, 31Г (район ТРЦ «Лоцман»)</p>
         </div>
-        <p>&copy; 2024 Детейлинг-центр «Градиент». Все права защищены.</p>
+        <p>&copy; 2024 Детейлинг-центр «Градиент» в Симферополе. Все права защищены.</p>
     </footer>
 
     <!-- Модальное окно -->
     <div class="modal-overlay" id="callModal">
         <div class="modal">
-            <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
-            <span class="modal-icon">📞</span>
-            <h3>Запишитесь на детейлинг</h3>
-            <p class="modal-slogan">«Ваш автомобиль заслуживает лучшего»</p>
-            <a href="tel:+79990000000" class="modal-phone">+7 (999) 000-00-00</a>
-            <p class="modal-hours">Ежедневно с 9:00 до 21:00</p>
-            <a href="tel:+79990000000" class="modal-call-btn">Позвонить сейчас</a>
-        </div>
-    </div>
-
-    <script>
-        const modal = document.getElementById('callModal');
-
-        function openModal() {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Закрытие по клику на фон
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Закрытие по ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-        });
-    </script>
-
-</body>
+            <button class="modal-close"
 </html>
