@@ -908,5 +908,37 @@
     <!-- Модальное окно -->
     <div class="modal-overlay" id="callModal">
         <div class="modal">
-            <button class="modal-close"
+            <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">&times;</button>
+            <span class="modal-icon">📞</span>
+            <h3>Запишитесь на детейлинг</h3>
+            <p class="modal-slogan">«Ваш автомобиль заслуживает лучшего»</p>
+            <a href="tel:+79990000000" class="modal-phone">+7 (999) 000-00-00</a>
+            <p class="modal-hours">Ежедневно с 9:00 до 21:00 · Симферополь</p>
+            <a href="tel:+79990000000" class="modal-call-btn">Позвонить сейчас</a>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('callModal');
+
+        function openModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+    </script>
+
+</body>
 </html>
