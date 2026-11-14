@@ -25,6 +25,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             color: var(--text-dark);
@@ -92,7 +96,7 @@
             background: var(--accent);
         }
 
-        /* --- Header / Hero Section (лёгкий CSS-фон) --- */
+        /* --- Header / Hero Section --- */
         header {
             background:
                 radial-gradient(ellipse at 20% 30%, rgba(0, 210, 255, 0.18) 0%, transparent 55%),
@@ -110,7 +114,6 @@
             overflow: hidden;
         }
 
-        /* Декоративный силуэт машины на фоне (чистый SVG, 0 запросов) */
         header::after {
             content: '';
             position: absolute;
@@ -652,6 +655,51 @@
             box-shadow: 0 10px 26px rgba(0, 210, 255, 0.55);
         }
 
+        /* --- Кнопка «Наверх» --- */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 24px rgba(0, 210, 255, 0.45);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.8);
+            transition: opacity 0.35s, visibility 0.35s, transform 0.35s, box-shadow 0.3s;
+            z-index: 90;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .scroll-top:hover {
+            box-shadow: 0 12px 30px rgba(0, 210, 255, 0.65);
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        .scroll-top svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         @keyframes ring {
             0%, 100% { transform: rotate(0); }
             10% { transform: rotate(14deg); }
@@ -690,6 +738,12 @@
             .btn-main, .btn-outline { padding: 13px 28px; font-size: 0.9rem; }
             .modal { padding: 40px 25px 30px; }
             .modal-phone { font-size: 1.5rem; }
+            .scroll-top {
+                width: 48px;
+                height: 48px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -707,7 +761,7 @@
     </div>
 
     <!-- Шапка -->
-    <header>
+    <header id="top">
         <span class="hero-badge-top">💎 Профессиональная студия детейлинга в Симферополе</span>
         <h1 class="logo">Градиент</h1>
         <h2 class="hero-title">Полный комплекс услуг по уходу за вашим автомобилем 🏎️</h2>
@@ -918,7 +972,15 @@
         </div>
     </div>
 
+    <!-- Кнопка «Наверх» -->
+    <button class="scroll-top" id="scrollTop" aria-label="Наверх">
+        <svg viewBox="0 0 24 24">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
     <script>
+        // Модальное окно
         const modal = document.getElementById('callModal');
 
         function openModal() {
@@ -938,7 +1000,23 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
+
+        // Кнопка «Наверх»
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     </script>
 
 </body>
+</html>
 </html>
