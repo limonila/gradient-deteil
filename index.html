@@ -9,6 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script>
+        // Применяем тему ДО отрисовки страницы, чтобы не было мигания
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && systemDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            // если saved === null или 'system' — оставляем как есть (системная)
+        })();
+    </script>
     <style>
         :root {
             --primary: #2c3e50;
@@ -17,6 +30,25 @@
             --bg-light: #f4f7f6;
             --text-dark: #333;
             --text-light: #fff;
+            --card-bg: #fff;
+            --card-desc: #666;
+            --footer-bg: #1a252f;
+            --topbar-bg: rgba(0, 0, 0, 0.35);
+            --section-dark-bg: #2c3e50;
+        }
+
+        /* Тёмная тема */
+        [data-theme="dark"] {
+            --primary: #e4eaf0;
+            --accent: #00d2ff;
+            --bg-light: #0f151c;
+            --text-dark: #d0d7de;
+            --text-light: #fff;
+            --card-bg: #1a232e;
+            --card-desc: #9aa7b3;
+            --footer-bg: #0a0f14;
+            --topbar-bg: rgba(0, 0, 0, 0.55);
+            --section-dark-bg: #10171f;
         }
 
         * {
@@ -34,6 +66,7 @@
             color: var(--text-dark);
             background-color: var(--bg-light);
             line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* --- Верхняя панель --- */
@@ -47,7 +80,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 18px 40px;
-            background: rgba(0, 0, 0, 0.35);
+            background: var(--topbar-bg);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
@@ -81,6 +114,12 @@
             color: var(--accent);
         }
 
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .topbar-phone {
             color: #fff;
             text-decoration: none;
@@ -94,6 +133,88 @@
 
         .topbar-phone:hover {
             background: var(--accent);
+        }
+
+        /* --- Переключатель темы --- */
+        .theme-switcher {
+            position: relative;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            transition: background 0.3s, transform 0.3s, border-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 210, 255, 0.25);
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .theme-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.25);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+            z-index: 20;
+        }
+
+        .theme-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: left;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .theme-option:hover {
+            background: rgba(0, 210, 255, 0.12);
+        }
+
+        .theme-option.active {
+            background: var(--accent-gradient);
+            color: #fff;
+        }
+
+        .theme-option .theme-option-icon {
+            font-size: 1.05rem;
+            line-height: 1;
         }
 
         /* --- Header / Hero Section --- */
@@ -250,7 +371,6 @@
             transform: translateY(-3px);
         }
 
-        /* --- Статистика --- */
         .hero-stats {
             display: flex;
             gap: 60px;
@@ -313,12 +433,12 @@
         }
 
         .service-card {
-            background: #fff;
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 30px 22px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s;
             position: relative;
             overflow: hidden;
             border-bottom: 4px solid transparent;
@@ -356,7 +476,7 @@
         }
 
         .service-desc {
-            color: #666;
+            color: var(--card-desc);
             font-size: 0.88rem;
             margin-bottom: 20px;
             flex-grow: 1;
@@ -401,7 +521,7 @@
         }
 
         .detail-header p {
-            color: #666;
+            color: var(--card-desc);
             font-size: 1.05rem;
             max-width: 800px;
             margin: 0 auto;
@@ -414,12 +534,12 @@
         }
 
         .step {
-            background: #fff;
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 24px 24px 24px 70px;
             position: relative;
             box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s;
         }
 
         .step:hover {
@@ -443,7 +563,7 @@
 
         .step p {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--card-desc);
         }
 
         .gift-banner {
@@ -468,10 +588,11 @@
 
         /* --- Почему мы --- */
         .why-us {
-            background: var(--primary);
+            background: var(--section-dark-bg);
             color: #fff;
             padding: 80px 20px;
             text-align: center;
+            transition: background-color 0.4s;
         }
 
         .why-us .section-title {
@@ -504,10 +625,11 @@
 
         /* --- Footer --- */
         footer {
-            background: #1a252f;
+            background: var(--footer-bg);
             color: #fff;
             padding: 40px 20px;
             text-align: center;
+            transition: background-color 0.4s;
         }
 
         footer p {
@@ -548,7 +670,7 @@
         }
 
         .modal {
-            background: #fff;
+            background: var(--card-bg);
             border-radius: 24px;
             max-width: 440px;
             width: 100%;
@@ -556,7 +678,7 @@
             text-align: center;
             position: relative;
             transform: translateY(30px) scale(0.96);
-            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2), background-color 0.4s;
             box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
             overflow: hidden;
         }
@@ -609,7 +731,7 @@
 
         .modal-slogan {
             font-size: 0.95rem;
-            color: #777;
+            color: var(--card-desc);
             margin-bottom: 25px;
             font-style: italic;
         }
@@ -738,12 +860,9 @@
             .btn-main, .btn-outline { padding: 13px 28px; font-size: 0.9rem; }
             .modal { padding: 40px 25px 30px; }
             .modal-phone { font-size: 1.5rem; }
-            .scroll-top {
-                width: 48px;
-                height: 48px;
-                bottom: 20px;
-                right: 20px;
-            }
+            .scroll-top { width: 48px; height: 48px; bottom: 20px; right: 20px; }
+            .topbar-right { gap: 8px; }
+            .topbar-phone { font-size: 0.8rem; padding: 7px 12px; }
         }
     </style>
 </head>
@@ -757,7 +876,23 @@
             <a href="#himchistka">Химчистка</a>
             <a href="#why">Почему мы</a>
         </nav>
-        <a href="tel:+79990000000" class="topbar-phone">+7 (999) 000-00-00</a>
+        <div class="topbar-right">
+            <div class="theme-switcher">
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Тема оформления">🌓</button>
+                <div class="theme-menu" id="themeMenu">
+                    <button class="theme-option" data-theme-value="light">
+                        <span class="theme-option-icon">☀️</span> Светлая
+                    </button>
+                    <button class="theme-option" data-theme-value="dark">
+                        <span class="theme-option-icon">🌙</span> Тёмная
+                    </button>
+                    <button class="theme-option" data-theme-value="system">
+                        <span class="theme-option-icon">💻</span> Системная
+                    </button>
+                </div>
+            </div>
+            <a href="tel:+79990000000" class="topbar-phone">+7 (999) 000-00-00</a>
+        </div>
     </div>
 
     <!-- Шапка -->
@@ -956,7 +1091,7 @@
             <p>Запись по телефону: <a href="tel:+79990000000">+7 (999) 000-00-00</a></p>
             <p>📍 г. Симферополь, пер. Гренажный, 31Г (район ТРЦ «Лоцман»)</p>
         </div>
-        <p>&copy; 2026 Детейлинг-центр «Градиент» в Симферополе. Все права защищены.</p>
+        <p>&copy; 2024 Детейлинг-центр «Градиент» в Симферополе. Все права защищены.</p>
     </footer>
 
     <!-- Модальное окно -->
@@ -980,7 +1115,7 @@
     </button>
 
     <script>
-        // Модальное окно
+        // ===== Модальное окно =====
         const modal = document.getElementById('callModal');
 
         function openModal() {
@@ -1001,7 +1136,7 @@
             if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
 
-        // Кнопка «Наверх»
+        // ===== Кнопка «Наверх» =====
         const scrollTopBtn = document.getElementById('scrollTop');
 
         window.addEventListener('scroll', () => {
@@ -1015,8 +1150,94 @@
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        // ===== Переключатель темы =====
+        const themeToggle = document.getElementById('themeToggle');
+        const themeMenu = document.getElementById('themeMenu');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function applyTheme(value) {
+            if (value === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else if (value === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                // Системная
+                document.documentElement.removeAttribute('data-theme');
+                if (mediaQuery.matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            }
+        }
+
+        function setTheme(value) {
+            if (value === 'system') {
+                localStorage.removeItem('theme');
+            } else {
+                localStorage.setItem('theme', value);
+            }
+            applyTheme(value);
+            updateActiveOption(value);
+            updateToggleIcon(value);
+        }
+
+        function updateActiveOption(value) {
+            themeOptions.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.themeValue === value);
+            });
+        }
+
+        function updateToggleIcon(value) {
+            if (value === 'light') {
+                themeToggle.textContent = '☀️';
+            } else if (value === 'dark') {
+                themeToggle.textContent = '🌙';
+            } else {
+                themeToggle.textContent = '🌓';
+            }
+        }
+
+        // Инициализация: определяем сохранённую тему
+        const savedTheme = localStorage.getItem('theme');
+        const currentTheme = savedTheme ? savedTheme : 'system';
+        applyTheme(currentTheme);
+        updateActiveOption(currentTheme);
+        updateToggleIcon(currentTheme);
+
+        // Клик по кнопке — открыть/закрыть меню
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themeMenu.classList.toggle('open');
+        });
+
+        // Выбор опции
+        themeOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setTheme(btn.dataset.themeValue);
+                themeMenu.classList.remove('open');
+            });
+        });
+
+        // Закрыть меню при клике вне
+        document.addEventListener('click', (e) => {
+            if (!themeMenu.contains(e.target) && !themeToggle.contains(e.target)) {
+                themeMenu.classList.remove('open');
+            }
+        });
+
+        // Слушаем изменения системной темы (если выбрана "Системная")
+        mediaQuery.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                // Тема не сохранена — значит "системная"
+                if (e.matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            }
+        });
     </script>
 
 </body>
-</html>
 </html>
