@@ -19,7 +19,6 @@
             } else if (saved === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
             }
-            // если saved === null или 'system' — оставляем как есть (системная)
         })();
     </script>
     <style>
@@ -33,7 +32,7 @@
             --card-bg: #fff;
             --card-desc: #666;
             --footer-bg: #1a252f;
-            --topbar-bg: rgba(0, 0, 0, 0.35);
+            --topbar-bg: rgba(20, 28, 38, 0.92);
             --section-dark-bg: #2c3e50;
         }
 
@@ -47,7 +46,7 @@
             --card-bg: #1a232e;
             --card-desc: #9aa7b3;
             --footer-bg: #0a0f14;
-            --topbar-bg: rgba(0, 0, 0, 0.55);
+            --topbar-bg: rgba(8, 12, 17, 0.95);
             --section-dark-bg: #10171f;
         }
 
@@ -59,6 +58,8 @@
 
         html {
             scroll-behavior: smooth;
+            /* Отступ сверху, чтобы фиксированная панель не перекрывала якоря */
+            scroll-padding-top: 84px;
         }
 
         body {
@@ -69,20 +70,28 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* --- Верхняя панель --- */
+        /* --- Верхняя панель (зафиксирована) --- */
         .topbar {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 10;
+            z-index: 50;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 40px;
+            padding: 14px 40px;
             background: var(--topbar-bg);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            transition: background-color 0.4s, box-shadow 0.3s;
+        }
+
+        /* Тень усиливается при прокрутке */
+        .topbar.scrolled {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.35);
         }
 
         .topbar-logo {
@@ -93,6 +102,7 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-decoration: none;
         }
 
         .topbar-nav {
@@ -107,11 +117,27 @@
             font-weight: 600;
             opacity: 0.85;
             transition: opacity 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        .topbar-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s;
         }
 
         .topbar-nav a:hover {
             opacity: 1;
             color: var(--accent);
+        }
+
+        .topbar-nav a:hover::after {
+            width: 100%;
         }
 
         .topbar-right {
@@ -843,7 +869,8 @@
 
         /* --- Adaptive --- */
         @media (max-width: 768px) {
-            .topbar { padding: 14px 18px; }
+            html { scroll-padding-top: 72px; }
+            .topbar { padding: 12px 18px; }
             .topbar-nav { display: none; }
             .logo { font-size: 2.8rem; letter-spacing: 3px; }
             header { min-height: auto; padding: 120px 20px 60px; }
@@ -868,9 +895,9 @@
 </head>
 <body>
 
-    <!-- Верхняя панель -->
-    <div class="topbar">
-        <div class="topbar-logo">Градиент</div>
+    <!-- Верхняя панель (зафиксирована) -->
+    <div class="topbar" id="topbar">
+        <a href="#top" class="topbar-logo">Градиент</a>
         <nav class="topbar-nav">
             <a href="#services">Услуги</a>
             <a href="#himchistka">Химчистка</a>
@@ -1136,14 +1163,22 @@
             if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
         });
 
-        // ===== Кнопка «Наверх» =====
+        // ===== Кнопка «Наверх» + тень фиксированной панели =====
         const scrollTopBtn = document.getElementById('scrollTop');
+        const topbar = document.getElementById('topbar');
 
         window.addEventListener('scroll', () => {
+            // Кнопка «Наверх»
             if (window.scrollY > 400) {
                 scrollTopBtn.classList.add('visible');
             } else {
                 scrollTopBtn.classList.remove('visible');
+            }
+            // Тень верхней панели
+            if (window.scrollY > 20) {
+                topbar.classList.add('scrolled');
+            } else {
+                topbar.classList.remove('scrolled');
             }
         });
 
@@ -1163,7 +1198,6 @@
             } else if (value === 'light') {
                 document.documentElement.setAttribute('data-theme', 'light');
             } else {
-                // Системная
                 document.documentElement.removeAttribute('data-theme');
                 if (mediaQuery.matches) {
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -1198,20 +1232,17 @@
             }
         }
 
-        // Инициализация: определяем сохранённую тему
         const savedTheme = localStorage.getItem('theme');
         const currentTheme = savedTheme ? savedTheme : 'system';
         applyTheme(currentTheme);
         updateActiveOption(currentTheme);
         updateToggleIcon(currentTheme);
 
-        // Клик по кнопке — открыть/закрыть меню
         themeToggle.addEventListener('click', (e) => {
             e.stopPropagation();
             themeMenu.classList.toggle('open');
         });
 
-        // Выбор опции
         themeOptions.forEach(btn => {
             btn.addEventListener('click', () => {
                 setTheme(btn.dataset.themeValue);
@@ -1219,17 +1250,14 @@
             });
         });
 
-        // Закрыть меню при клике вне
         document.addEventListener('click', (e) => {
             if (!themeMenu.contains(e.target) && !themeToggle.contains(e.target)) {
                 themeMenu.classList.remove('open');
             }
         });
 
-        // Слушаем изменения системной темы (если выбрана "Системная")
         mediaQuery.addEventListener('change', (e) => {
             if (!localStorage.getItem('theme')) {
-                // Тема не сохранена — значит "системная"
                 if (e.matches) {
                     document.documentElement.setAttribute('data-theme', 'dark');
                 } else {
